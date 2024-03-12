@@ -1,12 +1,17 @@
-import React from "react";
+import React, {useState} from "react";
 import Col from 'react-bootstrap/Col';
 import { Card } from "react-bootstrap";
 
-export default function BookCard({ book }) {
+function SingleBook({ book }) {
+  const [selected, setSelected] = useState(false);
+  const toggleSelected = () => {
+    setSelected(!selected);
+  }
+
   const { title, img, price, category } = book;
   return (
     <Col>
-      <Card style={{ width: '100%', height: '600px', marginBottom: '20px'}}>
+      <Card style={{ width: '100%', height: '600px', marginBottom: '20px'}} onClick={toggleSelected} className= {selected? "selected" : ""}>
         <Card.Img variant="top" src={img} style={{ height: '450px'}} />
         <Card.Body>
           <Card.Title style={{fontSize: '15px'}}>{title}</Card.Title>
@@ -17,3 +22,5 @@ export default function BookCard({ book }) {
     </Col>
   );
 }
+
+export default SingleBook;

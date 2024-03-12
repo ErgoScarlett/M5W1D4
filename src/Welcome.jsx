@@ -17,8 +17,6 @@ function Welcome() {
           Benvenuto nella mia app React EpiBooks!
         </div>  
       )}
-
-      <h1>EpiBooks</h1>
     </div>
   );
 }

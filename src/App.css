@@ -36,3 +36,16 @@
     transform: rotate(360deg);
   }
 }
+
+/*selected and cursor css*/
+.selected {
+  border: 2px solid red;
+}
+
+.card img {
+  cursor: default;
+}
+
+.card.selected img {
+  cursor: pointer;
+}
