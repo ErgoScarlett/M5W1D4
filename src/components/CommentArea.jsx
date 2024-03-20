@@ -1,42 +1,60 @@
-/*fetch("https://striveschool-api.herokuapp.com/api/put-your-endpoint-here/", {
-headers: {
-"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWQ0ZTU3ODljNDM3MDAwMTkzYzM2ZDAiLCJpYXQiOjE3MTA1MjE2ODUsImV4cCI6MTcxMTczMTI4NX0.GLapbAFrvkI0jBlFvgEYp8Cc6kovnPJBpPECRvEDTCc"
-}
-})*/
+import { useEffect, useState } from 'react'
+import CommentList from './CommentList'
+import AddComment from './AddComment'
+import Loading from './Loading'
+import Error from './Error'
 
-import React from'react';
-import { useState, useEffect } from 'react';
-import CommentList from './CommentList'; 
-import AddComment from './AddComment';
-// CommentArea.js
+export const API_URL = 'https://striveschool-api.herokuapp.com/api/comments/'; 
+export const TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWQ0ZTU3ODljNDM3MDAwMTkzYzM2ZDAiLCJpYXQiOjE3MTA3OTA3ODMsImV4cCI6MTcxMjAwMDM4M30.BSJ3pGD8tNy9o8s_cuUqma6Key7oL4WCRpe_2KrPKbI';
 
 
-function CommentArea({ bookASIN }) {
-
-  const [comments, setComments] = useState([]);
+const CommentArea = ({ asin }) => {
+  const [comments, setComments] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
+  const [isError, setIsError] = useState(false)
 
   useEffect(() => {
-    const fetchComments= async () => {
-        const response = await fetch(`https://striveschool-api.herokuapp.com/api/books/${bookASIN}/comments/`);
-        const data = await response.json();
-        setComments(data);
-  }
-  fetchComments();
-}, [bookASIN]);
-  
-
-  const addComment = (newcomment) => {
-    setComments([...comments, newcomment]);
-  }
+    const getComments = async () => {
+      setIsLoading(true)
+      try {
+        let response = await fetch(
+          'https://striveschool-api.herokuapp.com/api/comments/' + asin,
+          {
+            headers: {
+              Authorization: `Bearer ${TOKEN}`,
+            },
+          }
+        )
+        console.log(response)
+        if (response.ok) {
+          let comments = await response.json()
+          setComments(comments)
+          setIsLoading(false)
+          setIsError(false)
+        } else {
+          console.log('error')
+          setIsLoading(false)
+          setIsError(true)
+        }
+      } catch (error) {
+        console.log(error)
+        setIsLoading(false)
+        setIsError(true)
+      }
+    }
+    if (asin) {
+      getComments()
+    }
+  }, [asin])
 
   return (
-    <div className="comment-area">
-      <CommentList comments={comments} setComments={setComments} />
-      <AddComment onAdd={addComment} />
+    <div className="text-center">
+      {isLoading && <Loading />}
+      {isError && <Error />}
+      <AddComment asin={asin} />
+      <CommentList commentsToShow={comments} />
     </div>
-  );
-
+  )
 }
 
-
-export default CommentArea;
+export default CommentArea

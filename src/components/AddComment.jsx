@@ -1,84 +1,101 @@
-import React from 'react';
-import { useState } from 'react';
-import Spinner from 'react-bootstrap/Spinner';
+import React from 'react'
+import {useEffect, useState } from 'react';
+import { Button, Form } from 'react-bootstrap';
+
 
 export const API_POST = 'https://striveschool-api.herokuapp.com/api/comments/:elementId'
-export const TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWQ0ZTU3ODljNDM3MDAwMTkzYzM2ZDAiLCJpYXQiOjE3MTA1MjE2ODUsImV4cCI6MTcxMTczMTI4NX0.GLapbAFrvkI0jBlFvgEYp8Cc6kovnPJBpPECRvEDTCc'
+export const TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWQ0ZTU3ODljNDM3MDAwMTkzYzM2ZDAiLCJpYXQiOjE3MTA3OTA3ODMsImV4cCI6MTcxMjAwMDM4M30.BSJ3pGD8tNy9o8s_cuUqma6Key7oL4WCRpe_2KrPKbI'
 
-// AddComment.js
 
-function AddComment({bookId, onAdd}) {
+const AddComment = ({ asin }) => {
+  const [comment, setComment] = useState({
+    comment: '',
+    rate: 1,
+    elementId: null,
+  })
 
-  const [text, setText] = useState('');
-  const [rating, setRating] = useState(1);
-  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    setComment((c) => ({
+      ...c,
+      elementId: asin,
+    })) 
+  }, [asin])
+ 
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  
 
-    const comment = {
-      text,
-      rating,
-      elementId: bookId
-    };
-
+  const sendComment = async (e) => {
+    e.preventDefault()
+    console.log(JSON.stringify(comment))
     try {
-        setLoading(true);
-
-      const response = await fetch(API_POST, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${TOKEN}`
-        },
-        body: JSON.stringify(comment)  
-      });
-
-      setLoading(false);
-      
-      if(response.ok) {
-        onAdd(comment);
-        setText('');
-        alert('Commento inviato con successo!');
+      let response = await fetch(
+        'https://striveschool-api.herokuapp.com/api/comments',
+        {
+          method: 'POST',
+          body: JSON.stringify(comment),
+          headers: {
+            'Content-type': 'application/json',
+            Authorization: `Bearer ${TOKEN}`,
+          },
+        }
+      )
+      if (response.ok) {
+        alert('Recensione inviata!')
+        setComment({
+          comment: '',
+          rate: 1,
+          elementId: null,
+        })
       } else {
-        throw new Error('Something went wrong!');
+        throw new Error('Qualcosa è andato storto')
       }
-
     } catch (error) {
-        setLoading(false);
-        alert(error);
-      console.log(error);
+      alert(error)
     }
   }
 
   return (
-    <div className="add-comment">
-        {loading && <Spinner animation="border" role="status">
-                    <span className="visually-hidden">Loading...</span>
-                </Spinner>}
-      <form onSubmit={handleSubmit}>
-        <input 
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-        />
-
-        <select
-          value={rating}
-          onChange={(e) => setRating(e.target.value)} 
-        >
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-
-        </select>
-
-        <button type="submit">Invia</button>
-      </form>
+    <div className="my-3">
+      <Form onSubmit={sendComment}>
+        <Form.Group className="mb-2">
+          <Form.Label>Recensione</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Inserisci qui il testo"
+            value={comment.comment}
+            onChange={(e) =>
+              setComment({
+                ...comment,
+                comment: e.target.value,
+              })
+            }
+          />
+        </Form.Group>
+        <Form.Group className="mb-2">
+          <Form.Label>Valutazione</Form.Label>
+          <Form.Control
+            as="select"
+            value={comment.rate}
+            onChange={(e) =>
+              setComment({
+                ...comment,
+                rate: e.target.value,
+              })
+            }
+          >
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+          </Form.Control>
+        </Form.Group>
+        <Button variant="primary" type="submit">
+          Invia
+        </Button>
+      </Form>
     </div>
-  );
-
+  )
 }
 
-export default AddComment;
+export default AddComment

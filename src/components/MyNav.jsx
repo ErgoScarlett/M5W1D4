@@ -1,11 +1,15 @@
-import React from 'react'
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
+import { React, useContext } from 'react'
+import { Container, Nav, Navbar, Form, FormControl, Button } from 'react-bootstrap';
+import { ThemeContext } from './ThemeContextProvider';
 
-function MyNav() {
+
+//function MyNav() {
+  const MyNav = ({search, setSearch}) => {
+
+    const {theme, toggleTheme} = useContext(ThemeContext);
+
     return (
-        <Navbar bg="dark" data-bs-theme="dark" style={{marginBottom: '20px'}}>
+        <Navbar bg={theme} data-bs-theme={theme} style={{marginBottom: '20px'}}>
           <Container>
             <Navbar.Brand>EpicBooks</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -15,9 +19,17 @@ function MyNav() {
                 <Nav.Link href="#">About</Nav.Link>
                 <Nav.Link href="#">Browse</Nav.Link>
               </Nav>
+              <Button variant="outline-info" onClick={() => toggleTheme()}>Change</Button>
             </Navbar.Collapse>
           </Container>
+          <Form className="d-flex">
+          <FormControl type="search" placeholder="Cerca il tuo libro"
+            className="me-2" aria-label="Search"
+            value={search}
+            onChange={e => setSearch(e.target.value)}/>
+          </Form>
         </Navbar>
+        
       );
 }
 

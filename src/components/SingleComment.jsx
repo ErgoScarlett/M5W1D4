@@ -1,60 +1,45 @@
 import React from 'react';
-import { useState } from 'react';
-import Spinner from 'react-bootstrap/Spinner';
-import { IoMdStarOutline } from "react-icons/io";
-import { MdDeleteForever } from "react-icons/md";
+import { Button, ListGroup } from 'react-bootstrap'
 
-
-// api.js
 export const API_URL = 'https://striveschool-api.herokuapp.com/api/comments/'; 
-export const TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWQ0ZTU3ODljNDM3MDAwMTkzYzM2ZDAiLCJpYXQiOjE3MTA1MjE2ODUsImV4cCI6MTcxMTczMTI4NX0.GLapbAFrvkI0jBlFvgEYp8Cc6kovnPJBpPECRvEDTCc';
+export const TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWQ0ZTU3ODljNDM3MDAwMTkzYzM2ZDAiLCJpYXQiOjE3MTA3OTA3ODMsImV4cCI6MTcxMjAwMDM4M30.BSJ3pGD8tNy9o8s_cuUqma6Key7oL4WCRpe_2KrPKbI';
 
-// SingleComment.jsx
- 
 
-function SingleComment({ comment, onDelete }) {
-
-  const [loading, setLoading] = useState(false);
-
-  const { _id, text, author, createdAt, rating } = comment;
-  
-  const handleDelete = async () => {
-    setLoading(true);
+const SingleComment = ({ comment }) => {
+  const deleteComment = async (asin) => {
     try {
-      const response = await fetch(`${API_URL}${_id}`, {
-        method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${TOKEN}`
-        }  
-      });
-      if(response.ok) {
-        onDelete(comment); 
+      let response = await fetch(
+        'https://striveschool-api.herokuapp.com/api/comments/' + asin,
+        {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${TOKEN}`,
+          },
+        }
+      )
+      if (response.ok) {
+        alert('La recensione è stata elimata!')
+      } else {
+        throw new Error('La recensione non è stata eliminata!')
       }
     } catch (error) {
-      console.log(error);
+      alert(error)
     }
-    setLoading(false);
   }
 
   return (
-    <div className="single-comment">
-        {loading && <Spinner animation="border" role="status">
-          <span className="sr-only">Loading...</span>
-        </Spinner>}     
-        <button onClick={handleDelete}>
-        <MdDeleteForever />
-        Delete
-      </button>
-
-      <p>{text}</p>
-      <p>By {author}</p>
-
-      <p>Rating: {[...Array(rating)].map((_, i) => (<IoMdStarOutline key ={i} />))}</p>
-
-      <p>On {createdAt}</p>
-
-    </div>
-  );
+    <ListGroup.Item>
+      {comment.comment}
+      <Button
+        variant="danger"
+        className="ms-2"
+        onClick={() => deleteComment(comment._id)}
+      >
+        Elimina
+      </Button>
+    </ListGroup.Item>
+  )
 }
 
-export default SingleComment;
+export default SingleComment
+
