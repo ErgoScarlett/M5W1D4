@@ -1,5 +1,6 @@
-import React from 'react';
+import {React, useContext} from 'react';
 import { Button, ListGroup } from 'react-bootstrap'
+import { ThemeContext } from './ThemeContextProvider';
 
 export const API_URL = 'https://striveschool-api.herokuapp.com/api/comments/'; 
 export const TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWQ0ZTU3ODljNDM3MDAwMTkzYzM2ZDAiLCJpYXQiOjE3MTA3OTA3ODMsImV4cCI6MTcxMjAwMDM4M30.BSJ3pGD8tNy9o8s_cuUqma6Key7oL4WCRpe_2KrPKbI';
@@ -26,9 +27,11 @@ const SingleComment = ({ comment }) => {
       alert(error)
     }
   }
-
+  const {theme} = useContext(ThemeContext);
   return (
-    <ListGroup.Item>
+    <ListGroup.Item style=
+    {{background: theme === 'light'? '#F8F9FA' : '#333',
+    color: theme === 'light'? '#333' : '#F8F9FA'}}>
       {comment.comment}
       <Button
         variant="danger"

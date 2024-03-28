@@ -1,6 +1,7 @@
 import React from 'react'
-import {useEffect, useState } from 'react';
+import {useEffect, useState, useContext } from 'react';
 import { Button, Form } from 'react-bootstrap';
+import { ThemeContext } from './ThemeContextProvider';
 
 
 export const API_POST = 'https://striveschool-api.herokuapp.com/api/comments/:elementId'
@@ -19,10 +20,7 @@ const AddComment = ({ asin }) => {
       ...c,
       elementId: asin,
     })) 
-  }, [asin])
- 
-
-  
+  }, [asin])  
 
   const sendComment = async (e) => {
     e.preventDefault()
@@ -53,9 +51,10 @@ const AddComment = ({ asin }) => {
       alert(error)
     }
   }
-
+  const {theme} = useContext(ThemeContext);
   return (
-    <div className="my-3">
+    <div className="my-3"
+    style={{color: theme === 'light'? '#333' : '#F8F9FA'}}>
       <Form onSubmit={sendComment}>
         <Form.Group className="mb-2">
           <Form.Label>Recensione</Form.Label>

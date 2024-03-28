@@ -1,12 +1,46 @@
-import { React, useContext } from 'react'
-import { Container ,Row, Col} from 'react-bootstrap';
-/*import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';*/
+import { React, useState} from 'react'
+import { Row, Col} from 'react-bootstrap';
+import horror  from '../books/horror.json';
 import SingleBook from './SingleBook';
-import { ThemeContext } from './ThemeContextProvider';
+import CommentArea from './CommentArea';
 
 
-const AllTheBooks = ({book, search}) => {
+
+const AllTheBooks = ({ searchQuery }) => {
+  const [selected, setSelected] = useState(false)
+  return (
+    <Row>
+      <Col md={8}>
+        <Row className="g-2 mt-3" >
+          {horror.filter((b) => b.title.toLowerCase().includes(searchQuery))
+            .map((book) => {
+              return (
+                <Col xs={12} md={4} key={book.asin}> 
+                  <SingleBook
+                    book={book}
+                    selected={selected}
+                    setSelected={setSelected}
+                  />
+                </Col>
+              )
+            })}
+        </Row>
+      </Col>
+      <Col md={4}>
+        <CommentArea asin={selected} />
+      </Col>
+    </Row>
+   
+  )
+}
+
+export default AllTheBooks
+
+
+
+
+
+/*const AllTheBooks = ({book, search}) => {
 
   const filteredBooks = book.filter(book =>
     book.title.toLowerCase().includes(search.toLowerCase())
@@ -32,5 +66,5 @@ const AllTheBooks = ({book, search}) => {
 
 }
 
-export default AllTheBooks
+export default AllTheBooks*/
 

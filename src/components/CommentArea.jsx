@@ -18,26 +18,25 @@ const CommentArea = ({ asin }) => {
       setIsLoading(true)
       try {
         let response = await fetch(
-          'https://striveschool-api.herokuapp.com/api/comments/' + asin,
+          `https://striveschool-api.herokuapp.com/api/comments/${asin}`,
           {
             headers: {
               Authorization: `Bearer ${TOKEN}`,
             },
           }
         )
-        console.log(response)
         if (response.ok) {
           let comments = await response.json()
           setComments(comments)
           setIsLoading(false)
-          setIsError(false)
+          setIsError(false)          
         } else {
           console.log('error')
           setIsLoading(false)
           setIsError(true)
         }
       } catch (error) {
-        console.log(error)
+        console.error(error)
         setIsLoading(false)
         setIsError(true)
       }
@@ -52,7 +51,7 @@ const CommentArea = ({ asin }) => {
       {isLoading && <Loading />}
       {isError && <Error />}
       <AddComment asin={asin} />
-      <CommentList commentsToShow={comments} />
+     <CommentList commentsToShow={comments} /> 
     </div>
   )
 }
