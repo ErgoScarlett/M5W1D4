@@ -1,12 +1,12 @@
-import React from'react';
+import { React, useState } from 'react';
 import { ListGroup } from 'react-bootstrap'
-import SingleComment from './SingleComment'
+import SingleComment from '../SingleComment'
 
-const CommentList = ({ commentsToShow }) =>(
-  
+const CommentList = ({ commentsToShow }) => (
+
  <ListGroup style={{ color: 'black' }} className="mt-2">
     {commentsToShow.map((comment) => (
-      <SingleComment key={comment._id} comment={comment} />
+      <SingleComment key={comment._id} comment={comment}/>
     ))}
   </ListGroup>
   )

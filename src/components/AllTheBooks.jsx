@@ -1,8 +1,8 @@
 import { React, useState} from 'react'
 import { Row, Col} from 'react-bootstrap';
 import horror  from '../books/horror.json';
-import SingleBook from './SingleBook';
-import CommentArea from './CommentArea';
+import SingleBook from './SingleBook/SingleBook';
+import CommentArea from './CommentArea/CommentArea';
 
 
 
@@ -10,26 +10,27 @@ const AllTheBooks = ({ searchQuery }) => {
   const [selected, setSelected] = useState(false)
   return (
     <Row>
-      <Col md={8}>
-        <Row className="g-2 mt-3" >
-          {horror.filter((b) => b.title.toLowerCase().includes(searchQuery))
-            .map((book) => {
-              return (
-                <Col xs={12} md={4} key={book.asin}> 
-                  <SingleBook
-                    book={book}
-                    selected={selected}
-                    setSelected={setSelected}
-                  />
-                </Col>
-              )
-            })}
-        </Row>
-      </Col>
-      <Col md={4}>
-        <CommentArea asin={selected} />
-      </Col>
-    </Row>
+    <Col xs={6} md={8}>
+      <Row className="g-2 mt-3" >
+        {horror.filter((b) => b.title.toLowerCase().includes(searchQuery))
+          .map((book) => {
+            return (
+              <Col xs={12} md={4} key={book.asin}> 
+                <SingleBook
+                  book={book}
+                  selected={selected}
+                  setSelected={setSelected}
+                />
+              </Col>
+            )
+          })}
+      </Row>
+    </Col>
+    <Col xs={6} md={4}>
+      <CommentArea asin={selected} />
+    </Col>
+  </Row>
+  
    
   )
 }

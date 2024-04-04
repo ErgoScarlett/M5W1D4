@@ -6,7 +6,7 @@ import AllTheBooks from './components/AllTheBooks';
 import Welcome from './components/Welcome';
 import { useContext, useState } from 'react';
 import { Container } from 'react-bootstrap';
-import { ThemeContext } from './components/ThemeContextProvider';*/
+*/
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Homepage from './pages/Homepage';
@@ -23,7 +23,7 @@ function App() {
       <Route path="/books/:asin" element={<BookDetails />} />
 
       <Route path="/*" element={<ErrorPage />} />
-    </Routes>
+    </Routes>  
   </BrowserRouter>
   );
 };

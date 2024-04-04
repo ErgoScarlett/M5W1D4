@@ -1,6 +1,6 @@
 import { React, useContext } from 'react'
 import { Container, Nav, Navbar, Form, FormControl, Button } from 'react-bootstrap';
-import { ThemeContext } from './ThemeContextProvider';
+import { ThemeContext } from '../ThemeContextProvider';
 
 
 //function MyNav() {

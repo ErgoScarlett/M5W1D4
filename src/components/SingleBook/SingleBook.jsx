@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { Button, Card } from "react-bootstrap";
-import { ThemeContext } from './ThemeContextProvider';
+import { ThemeContext } from '../ThemeContextProvider';
 import { Link } from "react-router-dom";
 
 
@@ -16,7 +16,10 @@ const SingleBook = ({ setSelected, selected, book }) => {
     
   return (
     <>
-      <Card bg={theme} data-bs-theme={theme} style={{ width: '100%', height: '600px', marginBottom: '20px'}} onClick={handleClick} className= {selected === book.asin? 'selected':''}>
+      <Card bg={theme} data-bs-theme={theme}
+      style={{ width: '100%', height: '600px', marginBottom: '20px'}}
+      onClick={handleClick} className= {selected === book.asin? 'selected':''}
+      data-testid="book-card">
         <Card.Img variant="top" src={book.img} style={{ height: '400px'}} />
         <Card.Body>
           <Card.Title style={{fontSize: '15px'}}>{book.title}</Card.Title>

@@ -1,8 +1,8 @@
 
-import MyNav from '../components/MyNav';
+import MyNav from '../components/NavBar/MyNav';
 import MyFooter from '../components/MyFooter';
 import AllTheBooks from '../components/AllTheBooks';
-import Welcome from '../components/Welcome';
+import Welcome from '../components/Welcom/Welcome';
 import { useContext, useState } from 'react';
 import { Container } from 'react-bootstrap';
 import { ThemeContext } from '../components/ThemeContextProvider';

@@ -1,14 +1,15 @@
 import React from 'react'
 import {useEffect, useState, useContext } from 'react';
 import { Button, Form } from 'react-bootstrap';
-import { ThemeContext } from './ThemeContextProvider';
+import { ThemeContext } from '../ThemeContextProvider';
 
 
 export const API_POST = 'https://striveschool-api.herokuapp.com/api/comments/:elementId'
-export const TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWQ0ZTU3ODljNDM3MDAwMTkzYzM2ZDAiLCJpYXQiOjE3MTA3OTA3ODMsImV4cCI6MTcxMjAwMDM4M30.BSJ3pGD8tNy9o8s_cuUqma6Key7oL4WCRpe_2KrPKbI'
+export const TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWQ0ZTU3ODljNDM3MDAwMTkzYzM2ZDAiLCJpYXQiOjE3MTIxNTgzODAsImV4cCI6MTcxMzM2Nzk4MH0.6FLmqNx8aNJv6loTh2o1I1hvj7EqStOIzrWC750aaO8'
 
 
 const AddComment = ({ asin }) => {
+  
   const [comment, setComment] = useState({
     comment: '',
     rate: 1,
@@ -51,7 +52,7 @@ const AddComment = ({ asin }) => {
       alert(error)
     }
   }
-  const {theme} = useContext(ThemeContext);
+ const {theme} = useContext(ThemeContext);
   return (
     <div className="my-3"
     style={{color: theme === 'light'? '#333' : '#F8F9FA'}}>
@@ -89,7 +90,7 @@ const AddComment = ({ asin }) => {
             <option>5</option>
           </Form.Control>
         </Form.Group>
-        <Button variant="primary" type="submit">
+        <Button variant="outline-primary" type="submit">
           Invia
         </Button>
       </Form>
